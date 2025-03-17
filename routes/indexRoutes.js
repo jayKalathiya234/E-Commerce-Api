@@ -1,7 +1,7 @@
 const express = require('express');
 const { createNewUser, getAllUsers, createNewUserAdmin, getUserById, updateUserById, activeUserAccount, deactiveAccoutOtpVerify, activeAccoutOtpVerify, resendOtpDeactiveAccount, resendOtpActiveAccount, deactiveUserAccount, deleteUserById } = require('../controller/userController');
 const { verifyOtp, userLogin, forgotPassword, changePassword, adminLogin, updatePassword, getAllDeactiveUser } = require('../auth/userLogin');
-const { createMainCategory, getAllMainCategory, getMainCategoryById, updateMainCategoryById, deleteMainCategoryById } = require('../controller/mainCategoryController');
+const { createMainCategory, getAllMainCategory, getMainCategoryById, updateMainCategoryById, deleteMainCategoryById, getCategoryAndSubCategory } = require('../controller/mainCategoryController');
 const upload = require('../helper/imageUplode');
 const { createCategory, getAllCategory, getCategoryById, updateCategoryById, deleteCategoryById } = require('../controller/categoryController');
 const { createSubCategory, getAllSubCategory, getSubCategoryById, updateSubCategoryById, deleteSubCategoryById } = require('../controller/subCategoryController');
@@ -69,25 +69,26 @@ indexRoutes.delete('/deleteUser/:id', auth(['admin']), deleteUserById)
 // Main Category Routes
 
 indexRoutes.post('/createMaincategory', auth(['admin']), upload.single('mainCategoryImage'), createMainCategory);
-indexRoutes.get('/allMainCategory', auth(['admin', 'user']), getAllMainCategory);
+indexRoutes.get('/allMainCategory', getAllMainCategory);
 indexRoutes.get('/getMainCategory/:id', auth(['admin', 'user']), getMainCategoryById);
 indexRoutes.put('/updateMainCategory/:id', auth(['admin']), upload.single('mainCategoryImage'), updateMainCategoryById);
 indexRoutes.delete('/deleteMainCategory/:id', auth(['admin']), deleteMainCategoryById)
+indexRoutes.get('/getCategoryAndSubCategory/:id', getCategoryAndSubCategory)
 
 // Category Routes
 
-indexRoutes.post('/createCategory', auth(['admin']), createCategory);
-indexRoutes.get('/allCategory', auth(['admin', 'user']), getAllCategory);
+indexRoutes.post('/createCategory', auth(['admin']), upload.single('categoryImage'), createCategory);
+indexRoutes.get('/allCategory', getAllCategory);
 indexRoutes.get('/getCategory/:id', auth(['admin', 'user']), getCategoryById);
-indexRoutes.put('/updateCategry/:id', auth(['admin']), updateCategoryById);
+indexRoutes.put('/updateCategry/:id', auth(['admin']), upload.single('categoryImage'), updateCategoryById);
 indexRoutes.delete('/deleteCategory/:id', auth(['admin']), deleteCategoryById);
 
 // subCategory Routes
 
-indexRoutes.post('/createSubCategory', auth(['admin']), createSubCategory);
-indexRoutes.get('/allSubCategory', auth(['admin', 'user']), getAllSubCategory);
+indexRoutes.post('/createSubCategory', auth(['admin']), upload.single('subCategoryImage'), createSubCategory);
+indexRoutes.get('/allSubCategory', getAllSubCategory);
 indexRoutes.get('/getSubCategory/:id', auth(['admin', 'user']), getSubCategoryById);
-indexRoutes.put('/updateSubCategory/:id', auth(['admin']), updateSubCategoryById);
+indexRoutes.put('/updateSubCategory/:id', auth(['admin']), upload.single('subCategoryImage'), updateSubCategoryById);
 indexRoutes.delete('/deleteSubCategory/:id', auth(['admin']), deleteSubCategoryById);
 
 // address Routes

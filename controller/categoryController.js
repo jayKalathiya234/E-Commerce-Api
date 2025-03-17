@@ -12,7 +12,8 @@ exports.createCategory = async (req, res) => {
 
         checkExistCategoryName = await category.create({
             mainCategoryId,
-            categoryName
+            categoryName,
+            categoryImage: req.file.path
         });
 
         return res.status(201).json({ status: 201, message: "Category Create SuccessFully...", category: checkExistCategoryName });
@@ -93,6 +94,10 @@ exports.updateCategoryById = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Category Not Found" })
         }
 
+        if (req.body.categoryImage) {
+            req.body.categoryImage = req.file.path
+        }
+        
         updateCategoryId = await category.findByIdAndUpdate(id, { ...req.body }, { new: true })
 
         return res.status(200).json({ status: 200, message: "Category Updated SuccessFully...", category: updateCategoryId });

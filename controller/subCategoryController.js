@@ -13,7 +13,8 @@ exports.createSubCategory = async (req, res) => {
         existSubCategory = await subCategory.create({
             mainCategoryId,
             categoryId,
-            subCategoryName
+            subCategoryName,
+            subCategoryImage: req.file.path
         });
 
         return res.status(201).json({ status: 201, message: "subCategory Create SuccessFully...", subCategory: existSubCategory });
@@ -53,7 +54,7 @@ exports.getAllSubCategory = async (req, res) => {
                 }
             }
         ])
-        
+
         let count = paginatedSubCategory.length
 
         if (count === 0) {
@@ -100,6 +101,10 @@ exports.updateSubCategoryById = async (req, res) => {
 
         if (!updateCategoryId) {
             return res.status(404).json({ status: 404, message: "SubCategory Not Found" })
+        }
+
+        if (req.body.subCategoryImage) {
+            req.body.subCategoryImage = req.file.path
         }
 
         updateCategoryId = await subCategory.findByIdAndUpdate(id, { ...req.body }, { new: true });

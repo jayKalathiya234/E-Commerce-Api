@@ -1,4 +1,6 @@
 const mainCategory = require('../model/maincategoryModel')
+const categories = require('../model/categoryModel')
+const subCategory = require('../model/subCategoryModel')
 
 exports.createMainCategory = async (req, res) => {
     try {
@@ -111,6 +113,22 @@ exports.deleteMainCategoryById = async (req, res) => {
         await mainCategory.findByIdAndDelete(id)
 
         return res.status(200).json({ status: 200, message: "Main Category Delete SuccessFully..." });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error.message })
+    }
+}
+
+exports.getCategoryAndSubCategory = async (req, res) => {
+    try {
+        let id = req.params.id
+
+        let getAllCategorys = await categories.find({ mainCategoryId: id })
+
+        let getAllSubCategorys = await subCategory.find({ mainCategoryId: id })
+
+        return res.status(200).json({ status: 200, category: getAllCategorys, subCategory: getAllSubCategorys });
 
     } catch (error) {
         console.log(error);
