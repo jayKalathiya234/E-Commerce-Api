@@ -2,7 +2,7 @@ const mainCategory = require('../model/maincategoryModel')
 
 exports.createMainCategory = async (req, res) => {
     try {
-        let { mainCategoryName } = req.body
+        let { mainCategoryName, mainCategoryImage } = req.body
 
         let checkExistCategoryName = await mainCategory.findOne({ mainCategoryName })
 
@@ -12,6 +12,7 @@ exports.createMainCategory = async (req, res) => {
 
         checkExistCategoryName = await mainCategory.create({
             mainCategoryName,
+            mainCategoryImage: req.file.path
         });
 
         return res.status(201).json({ status: 201, message: "Main Category Create SuccessFully...", maincategory: checkExistCategoryName });
@@ -81,6 +82,10 @@ exports.updateMainCategoryById = async (req, res) => {
 
         if (!updateMainCategoryId) {
             return res.status(404).json({ status: 404, message: "Main Category Not Found" })
+        }
+
+        if (req.body.mainCategoryImage) {
+            req.body.mainCategoryImage = req.file.path
         }
 
         updateMainCategoryId = await mainCategory.findByIdAndUpdate(id, { ...req.body }, { new: true });

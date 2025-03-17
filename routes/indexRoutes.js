@@ -68,10 +68,10 @@ indexRoutes.delete('/deleteUser/:id', auth(['admin']), deleteUserById)
 
 // Main Category Routes
 
-indexRoutes.post('/createMaincategory', auth(['admin']), createMainCategory);
+indexRoutes.post('/createMaincategory', auth(['admin']), upload.single('mainCategoryImage'), createMainCategory);
 indexRoutes.get('/allMainCategory', auth(['admin', 'user']), getAllMainCategory);
 indexRoutes.get('/getMainCategory/:id', auth(['admin', 'user']), getMainCategoryById);
-indexRoutes.put('/updateMainCategory/:id', auth(['admin']), updateMainCategoryById);
+indexRoutes.put('/updateMainCategory/:id', auth(['admin']), upload.single('mainCategoryImage'), updateMainCategoryById);
 indexRoutes.delete('/deleteMainCategory/:id', auth(['admin']), deleteMainCategoryById)
 
 // Category Routes

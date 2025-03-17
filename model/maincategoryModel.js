@@ -5,7 +5,11 @@ const mainCategorySchema = mongoose.Schema({
         type: String,
         require: true
     },
-    status: {
+    mainCategoryImage: {
+        type: String,
+        require: true
+    },
+    status: { 
         type: Boolean,
         default: true
     }
